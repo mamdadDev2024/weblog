@@ -5,23 +5,18 @@ namespace App\Http\Controllers;
 use App\Models\Article;
 use App\Http\Requests\StoreArticleRequest;
 use App\Http\Requests\UpdateArticleRequest;
+use App\Services\ArticleService;
 
 class ArticleController extends Controller
 {
+    public function __construct(private ArticleService $service){}
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
+        $articles = $this->service->index();
+        return view("Article.Index", compact("articles"));
     }
 
     /**
@@ -29,7 +24,8 @@ class ArticleController extends Controller
      */
     public function store(StoreArticleRequest $request)
     {
-        //
+        $data = $request->validated();
+        return $this->service->create($data);
     }
 
     /**
@@ -37,7 +33,8 @@ class ArticleController extends Controller
      */
     public function show(Article $article)
     {
-        //
+        $article = $this->service->get($article);
+        return view("Article.Show", compact("article"));
     }
 
     /**
@@ -45,7 +42,7 @@ class ArticleController extends Controller
      */
     public function edit(Article $article)
     {
-        //
+        return view("Article.Update", compact("article"));
     }
 
     /**
@@ -53,7 +50,8 @@ class ArticleController extends Controller
      */
     public function update(UpdateArticleRequest $request, Article $article)
     {
-        //
+        $data = $request->validated();
+        return $this->service->update($article, $data);
     }
 
     /**
@@ -61,6 +59,7 @@ class ArticleController extends Controller
      */
     public function destroy(Article $article)
     {
-        //
+        $this->service->delete($article);
+        return redirect()->route('home');
     }
 }

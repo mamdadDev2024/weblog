@@ -45,4 +45,13 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+    public function articles()
+    {
+        return $this->hasMany(Article::class);
+    }
+
+    public function isOwn(Article $article)
+    {
+        return $this->articles()->where('id', $article->id)->exists();
+    }
 }
