@@ -2,10 +2,12 @@
 
 use App\Http\Controllers\ArticleController;
 use App\Http\Controllers\AuthController;
+use App\Models\Article;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
-    return view('welcome');
+    $articles = Article::all();
+    return view('welcome' , compact('articles'));
 })->name('home');
 
 Route::as('article.')->prefix("article")->group(function () {
@@ -26,7 +28,7 @@ Route::as('user')->prefix('user')->group(function () {
 
 Route::prefix('auth')->group(function (){
     Route::view('login' , 'Auth.Login')->name('login');
-    Route::view('register' , 'Auth.Register')->name('lgin');
+    Route::view('register' , 'Auth.Register')->name('register');
     Route::post('login' , [AuthController::class , 'login'])->name('do_login');
     Route::post('register' , [AuthController::class , 'register'])->name('do_register');
     Route::post('logout' , [AuthController::class ,'logout'])->name('logout');
