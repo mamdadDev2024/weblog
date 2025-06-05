@@ -20,7 +20,7 @@ class AuthService
     }
     public function register(array $data)
     {
-
+        return $this->registerAction->handle($data);
     }
 }
 

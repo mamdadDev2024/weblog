@@ -5,10 +5,10 @@ use App\Http\Controllers\AuthController;
 use App\Models\Article;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    $articles = Article::all();
-    return view('welcome' , compact('articles'));
-})->name('home');
+Route::group([] ,function () {
+    Route::view('/', 'welcome' , ["articles" => Article::paginate(10)])->name('home');
+});
+
 
 Route::as('article.')->prefix("article")->group(function () {
     Route::view('create' , 'Article.Create')->name('create');

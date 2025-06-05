@@ -3,12 +3,35 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title inertia>{{ config('app.name' , 'Weblog') }}</title>
-    @vite(['resources/css/app.css' , 'resources/js/app.js'])
+
+    <title inertia>{{ config('app.name', 'وبلاگ من') }}</title>
+
+    <link rel="icon" href="{{ asset('favicon.ico') }}" type="image/x-icon">
+
+    @stack('meta')
+
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
+
+    <script>
+        if (
+            localStorage.getItem('theme') === 'dark' ||
+            (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)
+        ) {
+            document.documentElement.classList.add('dark')
+        } else {
+            document.documentElement.classList.remove('dark')
+        }
+    </script>
 </head>
-    <body class="bg-[#FDFDFC] dark:bg-[#0a0a0a] text-[#1b1b18] flex p-6 lg:p-8 items-center lg:justify-center min-h-screen flex-col">
-        <x-section.header/>
+<body class="bg-[#FDFDFC] dark:bg-[#0a0a0a] text-[#1b1b18] dark:text-[#EDEDEC] flex flex-col items-center min-h-screen p-2 lg:p-3 space-y-3">
+
+    <x-section.header />
+
+    <main class="w-full max-w-5xl mx-auto flex justify-center pt-20">
         {{ $slot }}
-    </body>
+    </main>
+
+    @stack('scripts')
+
 </body>
 </html>
