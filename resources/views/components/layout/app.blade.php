@@ -31,6 +31,8 @@
         {{ $slot }}
     </main>
 
+    <x-section.article.card/>
+
     @stack('scripts')
 
 </body>

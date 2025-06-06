@@ -1,7 +1,11 @@
 <?php
 
-test('example', function () {
-    $response = $this->get('/');
+use App\Models\Article;
+use App\Models\User;
+use function PHPUnit\Framework\assertEquals;
 
-    $response->assertStatus(200);
+test('get a article', function () {
+    $user = User::factory()->create();
+    $article = Article::factory()->for($user)->create();
+    $this->assertEquals($user->articles()->first() , $article);
 });

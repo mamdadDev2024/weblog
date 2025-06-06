@@ -1,7 +1,10 @@
 <?php
 
-test('example', function () {
-    $response = $this->get('/');
+use App\Models\Article;
+use App\Models\User;
 
-    $response->assertStatus(200);
+test('get all articles', function () {
+    $user = User::factory()->create();
+    $articles = Article::factory()->for($user)->count(3)->create();
+    $this->assertCount(3, $articles->fresh()->count());
 });
